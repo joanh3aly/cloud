@@ -20,4 +20,4 @@ df = pd.DataFrame({'city': city, 'lat': lat, 'lng': lng})
 print(df.dtypes)
 #print(df)
 
-df.to_csv("cleanedCities.csv", sep='\t', encoding='utf-8')
+df.to_csv("cleanedCities-1.csv", sep=',', encoding='utf-8')
