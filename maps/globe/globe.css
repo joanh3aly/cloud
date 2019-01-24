@@ -1,0 +1,7 @@
+#map {
+  background-color: #f7f7f7;
+}
+
+.selected {
+  fill: yellowgreen;
+}
