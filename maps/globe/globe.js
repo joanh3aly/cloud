@@ -2,57 +2,21 @@ var margin = { top: 50, left: 50, right: 50, bottom: 50 },
   height = 500 - margin.top - margin.bottom,
   width = 1000 - margin.left - margin.right;
 
-/*
-  Create map with size variables
-*/
 var svg = d3
   .select("#map")
   .append("svg")
   .attr("height", height + margin.top + margin.bottom)
   .attr("width", width + margin.left + margin.right)
   .append("g");
- // .attr("transform", "translate(" + margin.left + margin.top + ")");
+ 
+d3.queue()
+  .defer(d3.json,"https://unpkg.com/world-atlas@1/world/110m.json")
+  .defer(d3.csv,"cleanedCities-6.csv")
+  .await(ready)
 
-
-
-
-//var cities = d3.csv("worldcities.csv",function(data){
-  //console.log(data);
-//});
-console.log(typeof cities);
-//console.log(cities);
-
-/*
-cities.forEach(function(d){
-  console.log(cities);
-});
-*/
-
-/*
-var capitals = d3.csv("worldcities.csv", function(d) {
-  return {
-    city : +d.city,
-    lat : +d.lat,
-    lng : +d.lng
-  };
-});
-*/
-
-var cities;
-d3.csv("worldcities.csv",function(data){
-  cities = data;
-});
-
-console.log(cities);  
-
-d3.json("https://unpkg.com/world-atlas@1/world/110m.json", function(error,data,cities) {
+function ready(error,data,capitals) {
   if (error) throw error;
 
-//  var cities = d3.csv("worldcities.csv"); //,function(cityData){
-    //console.log(cityData);
-//  });
-
-  console.log(cities);
 
   var countries = topojson.feature(data, data.objects.countries).features;
   //console.log(JSON.stringify(countries, null, 2));
@@ -78,16 +42,37 @@ d3.json("https://unpkg.com/world-atlas@1/world/110m.json", function(error,data,c
     .on("mouseout",function(d) {
       d3.select(this).classed("selected",false)
     });
-
-    /*
-    svg.selectAll("city-circle")
+    
+    //var timer = d3.timer(callback);
+    svg
+      .append("g") 
+      .attr("class", "city-group")
+      .selectAll(".city-circle")
       .data(capitals)
-      .enter().append("circle")
-      .attr("r",2)
+      .enter()
+      .append("circle")
+      .style("fill", function(d) {            
+        if (d.alert == 1) {
+          return "red"
+        } else { 
+            return "black" 
+          }          
+      ;}) 
+      .attr("r", function(d) {            
+        if (d.alert == 1) {
+          return 6
+        } else { 
+            return 2
+          }          
+      ;})  
+    /*  
+      .transition()
+      .ease(d3.easeLinear)
+      .duration(2000)   
+      */               
+     // .attr("class", "city-circle")
       .attr("cx",10)
       .attr("cy",10)
-
-
       .attr("cx",function(d){
         var coords = projection([d.lat, d.lng])
         return coords[0];
@@ -95,12 +80,13 @@ d3.json("https://unpkg.com/world-atlas@1/world/110m.json", function(error,data,c
       .attr("cy",function(d){  
         var coords = projection([d.lat, d.lng])
         return coords[1];
-      })  
-
+      }) 
+     
       svg.selectAll(".city-label")
         .data(capitals)
         .enter()
         .append("text")
+        .attr("class","city-label")
         .attr("x",function(d){
           var coords = projection([d.lat, d.lng])
           return coords[0];
@@ -108,13 +94,11 @@ d3.json("https://unpkg.com/world-atlas@1/world/110m.json", function(error,data,c
         .attr("y",function(d){  
           var coords = projection([d.lat, d.lng])
           return coords[1];
-        })  
-        .text("this is a capital")
+        }) 
         .text(function(d){
-          d.name
+          return d.city
         })
         .attr("dx",2)
-        .attr("dy",2)
-
-      */  
-});
+        .attr("dy",2)  
+    
+};
