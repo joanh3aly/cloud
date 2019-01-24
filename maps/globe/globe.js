@@ -11,7 +11,7 @@ var svg = d3
  
 d3.queue()
   .defer(d3.json,"https://unpkg.com/world-atlas@1/world/110m.json")
-  .defer(d3.csv,"cleanedCities-6.csv")
+  .defer(d3.csv,"https://raw.githubusercontent.com/joanh3aly/cloud/master/maps/globe/cleanedCities-6.csv")
   .await(ready)
 
 function ready(error,data,capitals) {
