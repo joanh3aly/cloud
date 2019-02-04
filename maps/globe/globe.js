@@ -11,15 +11,28 @@ var svg = d3
  
 d3.queue()
   .defer(d3.json,"https://unpkg.com/world-atlas@1/world/110m.json")
-  .defer(d3.csv,"https://raw.githubusercontent.com/joanh3aly/cloud/master/maps/globe/timestampCities.csv")
+  .defer(d3.json,"https://raw.githubusercontent.com/joanh3aly/cloud/master/maps/globe/timestampCities.json")
+  //.defer(d3.csv,"https://raw.githubusercontent.com/joanh3aly/cloud/master/maps/globe/timestampCities.csv")
   .await(ready)
 
-function ready(error,data,capitals) {
+function ready(error,data,capitalsData) {
   if (error) throw error;
-
 
   var countries = topojson.feature(data, data.objects.countries).features;
   //console.log(JSON.stringify(countries, null, 2));
+
+  //var capitals = json.feature(data, capitalsData.objects.countries).features;
+  //var capitals = json.feature(data, capitalsData.objects.countries).features;
+
+  var capitals = [];
+
+  for(var i in capitalsData) {
+    capitals.push([capitalsData[i]]);
+    //console.log(i);
+  }
+  console.log(capitals);
+
+  //console.log(JSON.stringify(capitalsData, null, 2));
 
   var projection = d3.geoMercator()
     .scale(100)
@@ -57,6 +70,9 @@ function ready(error,data,capitals) {
     });
     
     //var timer = d3.timer(callback);
+    /*
+      we just need to display the timestamp?
+    */
     svg
       .append("g") 
       .attr("class", "city-group")
