@@ -1,0 +1,65 @@
+[
+  {
+    "city": 65,
+    "lat": "Johannesburg",
+    "lng": 28.0473,
+    "alert": -26.2041,
+    "timestamp": 0
+  },
+  {
+    "city": 1547,
+    "lat": "Rio de Janiero",
+    "lng": -43.1729,
+    "alert": -22.9068,
+    "timestamp": 1
+  },
+  {
+    "city": 7378,
+    "lat": "Dublin",
+    "lng": -6.2603,
+    "alert": 53.3498,
+    "timestamp": 1
+  },
+  {
+    "city": 7400,
+    "lat": "New Delhi",
+    "lng": 77.209,
+    "alert": 28.6139,
+    "timestamp": 0
+  },
+  {
+    "city": 7811,
+    "lat": "Tokyo",
+    "lng": 139.6917,
+    "alert": 35.6895,
+    "timestamp": 0
+  },
+  {
+    "city": 8646,
+    "lat": "Melbourne",
+    "lng": 144.9631,
+    "alert": -37.8136,
+    "timestamp": 1
+  },
+  {
+    "city": 11579,
+    "lat": "Moscow",
+    "lng": 37.6173,
+    "alert": 55.7558,
+    "timestamp": 0
+  },
+  {
+    "city": 11842,
+    "lat": "London",
+    "lng": 39.8936,
+    "alert": -83.4375,
+    "timestamp": 0
+  },
+  {
+    "city": 11853,
+    "lat": "New York",
+    "lng": -74.006,
+    "alert": 40.7128,
+    "timestamp": 1
+  }
+]

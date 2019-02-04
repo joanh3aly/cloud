@@ -11,7 +11,7 @@ var svg = d3
  
 d3.queue()
   .defer(d3.json,"https://unpkg.com/world-atlas@1/world/110m.json")
-  .defer(d3.csv,"https://raw.githubusercontent.com/joanh3aly/cloud/master/maps/globe/cleanedCities-6.csv")
+  .defer(d3.csv,"https://raw.githubusercontent.com/joanh3aly/cloud/master/maps/globe/timestampCities.csv")
   .await(ready)
 
 function ready(error,data,capitals) {
@@ -27,6 +27,19 @@ function ready(error,data,capitals) {
 
   var path = d3.geoPath()
     .projection(projection);
+
+/*    
+  var capitalsArray = []  
+  for ( var i = 1; i <= capitals.length; ++i) {
+     //console.log(capitals[i].lat)  
+     if (capitals[i] == 1) {
+    //   console.log(capitals[i].lat);
+     }
+     capitalsArray += capitals[i];
+     
+  }  
+  console.log(capitalsArray[5]);
+*/
 
   svg
     .selectAll(".country")
@@ -49,6 +62,7 @@ function ready(error,data,capitals) {
       .attr("class", "city-group")
       .selectAll(".city-circle")
       .data(capitals)
+      //console.log(capitals.lat)
       .enter()
       .append("circle")
       .style("fill", function(d) {            
@@ -73,10 +87,12 @@ function ready(error,data,capitals) {
      // .attr("class", "city-circle")
       .attr("cx",10)
       .attr("cy",10)
+       
       .attr("cx",function(d){
         var coords = projection([d.lat, d.lng])
         return coords[0];
       })
+      
       .attr("cy",function(d){  
         var coords = projection([d.lat, d.lng])
         return coords[1];
