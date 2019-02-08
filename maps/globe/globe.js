@@ -30,7 +30,7 @@ function ready(error,data,capitalsData) {
     capitals.push([capitalsData[i]]);
     //console.log(i);
   }
-  console.log(capitals);
+  //console.log(capitals);
   
 
   var projection = d3.geoMercator()
@@ -58,22 +58,55 @@ function ready(error,data,capitalsData) {
     //var timer = d3.timer(callback);
     
     
-
+    var counter = 0;
     var interval = setInterval(function () {
-      //add your new fresh data here
-      update();
+    //  hourlyCapitals.length = 0;
+    //  capitals.length = 0;
+      console.log(counter++);
+
+      update(counter);
     }, 5000);
 
-    function update () {
-    var hourlyCapitals = [];  
-    for (var j = 0; j < capitals.length; ++j) {
-      for (var k = 1; k <= 24; ++k) {
+
+
+    //var hourlyCapitals = [];  
+
+    function update (counter) {
+      var k;
+      var hourlyCapitals = [];  
+      //hourlyCapitals.length = 0;
+      /*
+      for (k = 1; k <= 5; ++k) {
+        for (var j = 0; j < capitals.length; ++j) {
+      //  hourlyCapitals.length = 0;
+       // console.log(k);
         if (capitals[j][0].timestamp == k && capitals[j][0].alert == 1) {
+      //  if (capitals[j][0].timestamp == k) {
           hourlyCapitals.push([capitals[j][0]]);
-        }}}
-        console.log(hourlyCapitals[0][0]);
-        console.log(hourlyCapitals[1][0]);
-        console.log(hourlyCapitals[2][0]);
+        }
+        
+      }
+    }
+    */
+   // console.log(JSON.stringify(hourlyCapitals, null, 2));
+
+
+      capitals.forEach(function (d) {
+        
+        //if (d[0].timestamp == 1 && d[0].alert == 1) {
+      //  for (k = 1; k <= 5; ++k) {  
+        if (d[0].timestamp == counter && d[0].alert == 1) {
+
+          hourlyCapitals.push([d[0]]);
+          console.log([d[0].city]);
+          console.log([d[0].timestamp]);
+          console.log([d[0].alert]);
+        } 
+     //   } 
+      });
+
+     // console.log(JSON.stringify(hourlyCapitals, null, 2));
+        
    //     for (var l = 0; l < hourlyCapitals.length; ++l) {
         //  console.log(capitals[j][0].alert);
           svg
