@@ -31,7 +31,7 @@
     "city": "Tokyo",
     "lat": 139.6917,
     "lng": 35.6895,
-    "alert": 0,
+    "alert": 1,
     "timestamp": 2
   },
   {
@@ -45,7 +45,7 @@
     "city": "Moscow",
     "lat": 37.6173,
     "lng": 55.7558,
-    "alert": 0,
+    "alert": 1,
     "timestamp": 4
   },
   {
@@ -60,6 +60,69 @@
     "lat": -74.006,
     "lng": 40.7128,
     "alert": 1,
+    "timestamp": 6
+  },
+  {
+    "city": "Johannesburg",
+    "lat": 28.0473,
+    "lng": -26.2041,
+    "alert": 1,
+    "timestamp": 1
+  },
+  {
+    "city": "Rio de Janiero",
+    "lat": -43.1729,
+    "lng": -22.9068,
+    "alert": 0,
+    "timestamp": 1
+  },
+  {
+    "city": "Dublin",
+    "lat": -6.2603,
+    "lng": 53.3498,
+    "alert": 0,
+    "timestamp": 2
+  },
+  {
+    "city": "New Delhi",
+    "lat": 77.209,
+    "lng": 28.6139,
+    "alert": 1,
+    "timestamp": 2
+  },
+  {
+    "city": "Tokyo",
+    "lat": 139.6917,
+    "lng": 35.6895,
+    "alert": 0,
+    "timestamp": 2
+  },
+  {
+    "city": "Melbourne",
+    "lat": 144.9631,
+    "lng": -37.8136,
+    "alert": 0,
+    "timestamp": 3
+  },
+  {
+    "city": "Moscow",
+    "lat": 37.6173,
+    "lng": 55.7558,
+    "alert": 0,
+    "timestamp": 4
+  },
+  {
+    "city": "London",
+    "lat": 39.8936,
+    "lng": -83.4375,
+    "alert": 1,
+    "timestamp": 5
+  },
+  {
+    "city": "New York",
+    "lat": -74.006,
+    "lng": 40.7128,
+    "alert": 0,
     "timestamp": 6
   }
 ]
