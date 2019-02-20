@@ -20,7 +20,6 @@ function ready(error,data,capitalsData) {
 
   var countries = topojson.feature(data, data.objects.countries).features;
   //console.log(JSON.stringify(countries, null, 2));
-  //var capitals = json.feature(data, capitalsData.objects.countries).features;
  
   /*
     Convert json data to JS array
@@ -28,11 +27,8 @@ function ready(error,data,capitalsData) {
   var capitals = [];
   for(var i in capitalsData) {
     capitals.push([capitalsData[i]]);
-    //console.log(i);
   }
-  //console.log(capitals);
   
-
   var projection = d3.geoMercator()
     .scale(100)
     .center([83.96, 40]);
@@ -67,106 +63,74 @@ function ready(error,data,capitalsData) {
       update(counter);
     }, 5000);
 
-
-
     //var hourlyCapitals = [];  
 
     function update (counter) {
       var k;
       var hourlyCapitals = [];  
-      //hourlyCapitals.length = 0;
-      /*
-      for (k = 1; k <= 5; ++k) {
-        for (var j = 0; j < capitals.length; ++j) {
-      //  hourlyCapitals.length = 0;
-       // console.log(k);
-        if (capitals[j][0].timestamp == k && capitals[j][0].alert == 1) {
-      //  if (capitals[j][0].timestamp == k) {
-          hourlyCapitals.push([capitals[j][0]]);
-        }
-        
-      }
-    }
-    */
-   // console.log(JSON.stringify(hourlyCapitals, null, 2));
-
-
+      
       capitals.forEach(function (d) {
-        
-        //if (d[0].timestamp == 1 && d[0].alert == 1) {
-      //  for (k = 1; k <= 5; ++k) {  
         if (d[0].timestamp == counter && d[0].alert == 1) {
-
           hourlyCapitals.push([d[0]]);
           console.log([d[0].city]);
           console.log([d[0].timestamp]);
           console.log([d[0].alert]);
         } 
-     //   } 
       });
 
-     // console.log(JSON.stringify(hourlyCapitals, null, 2));
-        
-   //     for (var l = 0; l < hourlyCapitals.length; ++l) {
-        //  console.log(capitals[j][0].alert);
-          svg
-            .append("g") 
-            .attr("class", "city-group")
-            .selectAll(".city-circle")
-            .data(hourlyCapitals)
-            .enter()
-            .append("circle")
-            .style("fill", function(d) {   
-             // console.log(d);         
-              if (d[0].alert == 1) {
-                return "red"
-              } else { 
-                  return "black" 
-                }          
-            ;}) 
-            .attr("r", function(d) {            
-              if (d[0].alert == 1) {
-                return 6
-              } else { 
-                  return 2
-                }          
-            ;})                 
-          // .attr("class", "city-circle")
-            .attr("cx",10)
-            .attr("cy",10)
-            .attr("cx",function(d){
-              var coords = projection([d[0].lat, d[0].lng])
-              return coords[0];
-            })
-            .attr("cy",function(d){  
-              var coords = projection([d[0].lat, d[0].lng])
-              //console.log(d[0].lat);
-              return coords[1];
-            }) 
+     
+      svg
+        .append("g") 
+        .attr("class", "city-group")
+        .selectAll(".city-circle")
+        .data(hourlyCapitals)
+        .enter()
+        .append("circle")
+        .style("fill", function(d) {   
+          if (d[0].alert == 1) {
+            return "red"
+          } else { 
+              return "black" 
+            }          
+        ;}) 
+        .attr("r", function(d) {            
+          if (d[0].alert == 1) {
+            return 6
+          } else { 
+              return 2
+            }          
+        ;})                 
+      // .attr("class", "city-circle")
+        .attr("cx",10)
+        .attr("cy",10)
+        .attr("cx",function(d){
+          var coords = projection([d[0].lat, d[0].lng])
+          return coords[0];
+        })
+        .attr("cy",function(d){  
+          var coords = projection([d[0].lat, d[0].lng])
+          //console.log(d[0].lat);
+          return coords[1];
+        }) 
 
-            svg.selectAll(".city-label")
-              .data(capitals)
-              .enter()
-              .append("text")
-              .attr("class","city-label")
-              .attr("x",function(d){
-                var coords = projection([d[0].lat, d[0].lng])
-                return coords[0];
-              })
-              .attr("y",function(d){  
-                var coords = projection([d[0].lat, d[0].lng])
-                return coords[1];
-              }) 
-              .text(function(d){
-                return d[0].city
-              })
-              .attr("dx",2)
-              .attr("dy",2)  
-      //    }
-     //   }
-     // }
-    }
-
-      
-    
+        svg.selectAll(".city-label")
+          .data(hourlyCapitals)
+          .enter()
+          .append("text")
+          .attr("class","city-label")
+          .attr("x",function(d){
+            var coords = projection([d[0].lat, d[0].lng])
+            return coords[0];
+          })
+          .attr("y",function(d){  
+            var coords = projection([d[0].lat, d[0].lng])
+            return coords[1];
+          }) 
+          .text(function(d){
+            return d[0].city
+          })
+          .attr("dx",2)
+          .attr("dy",2)   
+        }
+   
 };
