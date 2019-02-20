@@ -17,7 +17,6 @@ d3.queue()
 
 function ready(error,data,capitalsData) {
   if (error) throw error;
-
   var countries = topojson.feature(data, data.objects.countries).features;
   //console.log(JSON.stringify(countries, null, 2));
  
@@ -53,84 +52,81 @@ function ready(error,data,capitalsData) {
     
     //var timer = d3.timer(callback);
     
+  var counter = 0;
+  var interval = setInterval(function () {
+    console.log(counter++);
+    update(counter);
+  }, 3000);
+
+  //var hourlyCapitals = [];  
+
+  function update (counter) {
+    var k;
+    var hourlyCapitals = [];  
     
-    var counter = 0;
-    var interval = setInterval(function () {
-    //  hourlyCapitals.length = 0;
-    //  capitals.length = 0;
-      console.log(counter++);
+    capitals.forEach(function (d) {
+      if (d[0].timestamp == counter && d[0].alert == 1) {
+        hourlyCapitals.push([d[0]]);
+     //   console.log([d[0].city]);
+     //   console.log([d[0].timestamp]);
+     //   console.log([d[0].alert]);
+      } 
+    });
 
-      update(counter);
-    }, 5000);
+    svg
+      .append("g") 
+      .attr("class", "city-group")
+      .selectAll(".city-circle")
+      .data(hourlyCapitals)
+      .enter()
+      .append("circle")
+      .style("fill", function(d) {   
+        if (d[0].alert == 1) {
+          return "red"
+        } else { 
+            return "black" 
+          }          
+      ;}) 
+      .attr("r", function(d) {            
+        if (d[0].alert == 1) {
+          return 6
+        } else { 
+            return 2
+          }          
+      ;})                 
+    // .attr("class", "city-circle")
+      .attr("cx",10)
+      .attr("cy",10)
+      .attr("cx",function(d){
+        var coords = projection([d[0].lat, d[0].lng])
+        return coords[0];
+      })
+      .attr("cy",function(d){  
+        var coords = projection([d[0].lat, d[0].lng])
+        //console.log(d[0].lat);
+        return coords[1];
+      }) 
 
-    //var hourlyCapitals = [];  
-
-    function update (counter) {
-      var k;
-      var hourlyCapitals = [];  
-      
-      capitals.forEach(function (d) {
-        if (d[0].timestamp == counter && d[0].alert == 1) {
-          hourlyCapitals.push([d[0]]);
-          console.log([d[0].city]);
-          console.log([d[0].timestamp]);
-          console.log([d[0].alert]);
-        } 
-      });
-
-     
-      svg
-        .append("g") 
-        .attr("class", "city-group")
-        .selectAll(".city-circle")
+      console.log(hourlyCapitals)
+      svg.selectAll(".city-label")
         .data(hourlyCapitals)
         .enter()
-        .append("circle")
-        .style("fill", function(d) {   
-          if (d[0].alert == 1) {
-            return "red"
-          } else { 
-              return "black" 
-            }          
-        ;}) 
-        .attr("r", function(d) {            
-          if (d[0].alert == 1) {
-            return 6
-          } else { 
-              return 2
-            }          
-        ;})                 
-      // .attr("class", "city-circle")
-        .attr("cx",10)
-        .attr("cy",10)
-        .attr("cx",function(d){
+        .append("text")
+        .attr("class","city-label")
+        .attr("x",function(d){
           var coords = projection([d[0].lat, d[0].lng])
           return coords[0];
         })
-        .attr("cy",function(d){  
+        .attr("y",function(d){  
           var coords = projection([d[0].lat, d[0].lng])
-          //console.log(d[0].lat);
           return coords[1];
         }) 
-
-        svg.selectAll(".city-label")
-          .data(hourlyCapitals)
-          .enter()
-          .append("text")
-          .attr("class","city-label")
-          .attr("x",function(d){
-            var coords = projection([d[0].lat, d[0].lng])
-            return coords[0];
-          })
-          .attr("y",function(d){  
-            var coords = projection([d[0].lat, d[0].lng])
-            return coords[1];
-          }) 
-          .text(function(d){
-            return d[0].city
-          })
-          .attr("dx",2)
-          .attr("dy",2)   
-        }
+        .text(function(d){
+          console.log(d[0].city)
+          return d[0].city;
+        })
+        .attr("dx",2)
+        .attr("dy",2)   
+  }
    
 };
