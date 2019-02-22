@@ -12,6 +12,7 @@ var svg = d3
 d3.queue()
   .defer(d3.json,"https://unpkg.com/world-atlas@1/world/110m.json")
   .defer(d3.json,"https://raw.githubusercontent.com/joanh3aly/cloud/master/maps/globe/timestampCities.json")
+  //.defer(d3.json,"/Applications/MAMP/htdocs/cloud/maps/globe/timestampCities.json")
   //.defer(d3.csv,"https://raw.githubusercontent.com/joanh3aly/cloud/master/maps/globe/timestampCities.csv")
   .await(ready)
 
