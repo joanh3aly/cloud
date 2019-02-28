@@ -8,7 +8,10 @@ var svg = d3
   .attr("height", height + margin.top + margin.bottom)
   .attr("width", width + margin.left + margin.right)
   .append("g");
- 
+
+/*
+  Create queue and load data
+*/
 d3.queue()
   .defer(d3.json,"https://unpkg.com/world-atlas@1/world/110m.json")
   .defer(d3.json,"https://raw.githubusercontent.com/joanh3aly/cloud/master/maps/globe/timestampCities.json")
@@ -29,6 +32,9 @@ function ready(error,data,capitalsData) {
     capitals.push([capitalsData[i]]);
   }
   
+  /*
+    Create the map
+  */
   var projection = d3.geoMercator()
     .scale(100)
     .center([83.96, 40]);
@@ -50,17 +56,21 @@ function ready(error,data,capitalsData) {
     .on("mouseout",function(d) {
       d3.select(this).classed("selected",false)
     });
-    
-    //var timer = d3.timer(callback);
-    
+      
+  /*
+    Interval timer function loop
+  */
   var counter = 0;
   var interval = setInterval(function () {
-    console.log(counter++);
+    console.log(counter);
     update(counter);
-  }, 3000);
+    counter = counter + 1;
+  }, 500);
 
-  //var hourlyCapitals = [];  
 
+  /*
+    Update function with data
+  */
   function update (counter) {
     var k;
     var hourlyCapitals = [];  
@@ -75,11 +85,34 @@ function ready(error,data,capitalsData) {
     });
 
     svg
+      .attr("class", "city-name-group")
+      .selectAll(".city-name")
+      .data(hourlyCapitals)
+      .enter()
+      .append("text")
+      .text(function(d){
+        console.log(d[0].city)
+        return d[0].city;
+      })   
+      .attr("x",function(d){
+        var coords = projection([d[0].lat, d[0].lng])
+        return coords[0];
+      }) 
+      .attr("y",function(d){  
+        var coords = projection([d[0].lat, d[0].lng])
+        return coords[1];
+      }) 
+      .attr("dx",2)
+      .attr("dy",2)  
+      
+    svg
       .append("g") 
       .attr("class", "city-group")
       .selectAll(".city-circle")
       .data(hourlyCapitals)
       .enter()
+      //.append("text")
+      //.attr("class","city-label")
       .append("circle")
       .style("fill", function(d) {   
         if (d[0].alert == 1) {
@@ -95,7 +128,7 @@ function ready(error,data,capitalsData) {
             return 2
           }          
       ;})                 
-    // .attr("class", "city-circle")
+      .attr("class", "city-circle")
       .attr("cx",10)
       .attr("cy",10)
       .attr("cx",function(d){
@@ -104,30 +137,9 @@ function ready(error,data,capitalsData) {
       })
       .attr("cy",function(d){  
         var coords = projection([d[0].lat, d[0].lng])
-        //console.log(d[0].lat);
         return coords[1];
-      }) 
-
-      console.log(hourlyCapitals)
-      svg.selectAll(".city-label")
-        .data(hourlyCapitals)
-        .enter()
-        .append("text")
-        .attr("class","city-label")
-        .attr("x",function(d){
-          var coords = projection([d[0].lat, d[0].lng])
-          return coords[0];
-        })
-        .attr("y",function(d){  
-          var coords = projection([d[0].lat, d[0].lng])
-          return coords[1];
-        }) 
-        .text(function(d){
-          console.log(d[0].city)
-          return d[0].city;
-        })
-        .attr("dx",2)
-        .attr("dy",2)   
+      })          
+        
   }
    
 };
